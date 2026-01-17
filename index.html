@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impostor | TikTok Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="custom-modal">
+        <div class="modal-card">
+            <h2 id="modal-title"></h2>
+            <p id="modal-msg" style="margin: 15px 0 25px; color: #ccc;"></p>
+            <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal()">Siguiente Ronda</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <section id="screen1" class="screen active">
+          <div class="titulo"> <img id="titulo" src="assets/img/titulo.png"></div>
+            <p class="subtitle">El impostor podrias ser tu</p>
+            <div class="card">
+                <input type="text" id="input-name" placeholder="Nombre...">
+                <button class="btn btn-secondary" onclick="addPlayer()" style="width: 100%;">Añadir +</button>
+            </div>
+            <div id="list-names" style="overflow-y: auto; flex-grow: 1; margin-bottom: 10px;"></div>
+            <button class="btn btn-bottom" onclick="nextScreen('screen2')">Elegir Categoría</button>
+        </section>
+
+        <section id="screen2" class="screen">
+           
+            <h1>Categoría</h1>
+            <p class="subtitle">Selecciona un tema nuevo</p>
+            <div class="category-grid" id="cat-grid">
+                <div class="cat-card" onclick="selectCat(this, 'Famosos')"><span>🌟</span><p>FAMOSOS</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Animales')"><span>🦁</span><p>ANIMALES</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Países')"><span>🌎</span><p>PAÍSES</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Objeto')"><span>📦</span><p>OBJETO</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Genero_Musical')"><span>🎵</span><p>Genero Musical</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Pelicula')"><span>🎬</span><p>PELICULA/SERIES</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Anime')"><span>💀</span><p>ANIME</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Profesiones')"><span>👨‍⚕️</span><p>PROFESIONES</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Marcas')"><span>✔️</span><p>MARCAS</p></div>
+                <div class="cat-card" onclick="selectCat(this, 'Aleatorio')"><span>❗</span><p>ALEATORIO</p></div>
+
+
+
+            </div>
+            <button class="btn btn-bottom" onclick="nextScreen('screen3')">Continuar</button>
+            <button class="btn btn-secondary" onclick="nextScreen('screen1')" style="margin-top: 10px; font-size: 0.8rem; padding: 10px;">Editar Jugadores</button>
+        </section>
+
+        <section id="screen3" class="screen">
+            <h1>Tiempo</h1>
+            <div class="card" style="text-align: center;">
+                <input type="number" id="time-val" value="60" style="text-align: center; font-size: 3rem; border:none;">
+                <p style="color: var(--primary); font-weight: bold;">SEGUNDOS</p>
+            </div>
+            <button class="btn btn-bottom" onclick="startGame()">¡Empezar!</button>
+        </section>
+
+        <section id="screen4" class="screen">
+            <h1 id="player-turn"></h1>
+            <div class="secret-card" id="secret-box" onclick="showSecret()">TOCA PARA REVELAR</div>
+            <button class="btn btn-bottom" id="btn-next-turn" onclick="nextTurn()" style="display: none;">Siguiente</button>
+        </section>
+
+        <section id="screen5" class="screen">
+            <h1>¡Debatid!</h1>
+            <div id="timer-display">60</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn btn-secondary" id="pause-btn" onclick="togglePause()">Pausa</button>
+                <button class="btn" onclick="finishTimer()" style="background: white;">Votar</button>
+            </div>
+        </section>
+
+        <section id="screen6" class="screen">
+            <h1>Votación</h1>
+            <p class="subtitle">¿Quién ha mentido?</p>
+            <div id="vote-list" style="overflow-y: auto;"></div>
+        </section>
+    </div>
+
+<script src="js/scripts.js"></script>
+</body>
+</html>
