@@ -1,334 +1,255 @@
-        :root {
-            --bg: #111111;
-            --card-bg: #ea83fff9;
-            --gradientCard : #D500CE;
-            --primary: #15CFDD;
-            --gradiendPrimary: #00BFBD; 
-            --secondary: #d000fff1;
-            --gradiendSecundary: #860099;
-            --tertiary: #fd7200;
-            --gradindTertiary: #F95F00;
-            --text: #ffffff;
-            --overlay: rgba(0, 0, 0, 0.9);
-            --impostorColor: #ff0000;
-        }
-       @font-face {
-    font-family: "impostor";
-    src: 
-        url("../assets/this_cafe/ThisCafe.ttf") format("opentype"),
-        url("../assets/this_cafe/ThisCafe.otf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+const database = {
+ "Famosos": ["Lionel Messi", "Cristiano Ronaldo", "Shakira", "Elon Musk", "Rosalía", "Ibai", "Donald Trump","Michael Jackson","Justin Bieber","jeffrey dahmer","P.Diddy","Bad Bunny","Daddy Yankey"],
+ "Animales": ["Elefante", "Hámster", "Tiburón", "Jirafa", "León", "Pingüino", "Perro","Tigre","Gorila","Ballena","Mono"],
+ "Países": ["España", "México", "Japón", "Brasil", "Egipto", "Francia", "Italia"],
+ "Objeto": ["Microondas", "Reloj", "Satélite", "Ascensor", "Paraguas", "Semáforo","Cocina"],
+ "Genero_Musical": ["Pop","Rock","Hip Hop","Reggaetón","Jazz","Electrónica","Country","Metal","Salsa","Merengue","Cumbia","Reggae"],
+ "Pelicula": ["Avatar","Titanic","Avengers: Endgame","Spider-Man","The Dark Knight","Inception","Interstellar","Jurassic Park","Lord of the Rings","Star Wars","Harry Potter","The Matrix","Gladiator","The Lion King"],
+ "Anime": ["Naruto","Dragon Ball","One Piece","Attack on Titan","Death Note","Fullmetal Alchemist","Demon Slayer","My Hero Academia","Jujutsu Kaisen","Tokyo Ghoul","Sword Art Online","One Punch Man","Hunter x Hunter","Bleach","Neon Genesis Evangelion","Pokemon","Digimon","Sailor Moon","Saint Seiya"],
+ "Profesiones": ["Doctor","Ingeniero","Abogado","Maestro","Enfermero","Arquitecto","Policía","Bombero","Cocinero","Piloto"],
+ "Marcas": ["Nike","Adidas","Apple","Samsung","Coca-Cola","Pepsi","McDonald's","Google","Toyota","Sony"],
+ "EquiposFutbol": ["Barcelona","Real Madrid","Manchester United","Manchester City","Liverpool","Chelsea","Arsenal","Bayern Munich","Borussia Dortmund","PSG","Juventus","AC Milan","Inter","Napoli","Benfica","Atletico de Madrid","Sevilla","River Plate","Boca Juniors"],
+ "Aleatorio": []
+};
+
+let players = [];
+let category = "";
+let secretWord = "";
+let impostorIdx = -1;
+let currentIdx = 0;
+let timeLeft = 0;
+let timerInterval = null;
+let isPaused = false;
+let isGameEnd = false;
+let gameStarted = false;
+
+
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
 }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "impostor", sans-serif; font-weight: bold;}
 
-        body {
-            background-color: var(--bg);
-            background-image: url("../assets/img/fondoBanderas.png");
-            background-size: cover;
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            font-weight: bold;
-            font-family: "impostor" , sans-serif;
-              width: 100%;
-    min-height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-           
-        }
-        div.titulo{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        #titulo{
-            max-width: 350px;
-            min-width: 100px;
-                   
-        }
-        .animate{
-             animation: titulo 1s linear 1
-        }
-        @keyframes titulo {
-           0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(15deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  75% {
-    transform: rotate(-15deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-        }
-      
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-
-        .screen {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .screen.active { display: flex; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 { font-weight: 900; font-size: 2rem; text-align: center; margin-bottom: 10px; text-transform: uppercase; background-color: var(--tertiary);border-radius: 0.5rem;padding: 0.4rem; }
-        .subtitle { text-align: center; color: #ffffff; margin-bottom: 20px; font-size: 0.9rem; background-color: rgba(0, 0, 0, 0.449);border-radius: 1rem; padding: 1rem;}
-       
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid #333;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 2px solid #333;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            outline: none;
-        }
-
-        .btn {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 16px;
-            border-radius: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.2s;
-        }
-        .btn-secondary { background: var(--secondary); color: white; }
-        .btn-bottom { margin-top: auto; }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .cat-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .cat-card.selected {
-            border-color: var(--primary);
-            background: #252c3a;
-            scale: 110%;
-        }
-
-        #custom-modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-        }
-
-        .modal-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 30px;
-            text-align: center;
-            border: 2px solid var(--primary);
-            width: 85%;
-            max-width: 320px;
-        }
-
-        .player-tag {
-            background: #252c3a; padding: 12px; border-radius: 12px;
-            margin-bottom: 8px; border-left: 4px solid var(--primary);
-        }
-
-        .secret-card {
-            background: #1c222d; height: 220px; border-radius: 30px;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; font-weight: 900; border: 3px dashed #444;
-            cursor: pointer; margin: 20px 0; text-align: center; padding: 20px;
-        }
-
-        #timer-display {
-            font-size: 5rem; text-align: center; font-weight: 900;
-            color: var(--secondary); margin: 20px 0;
-            background: linear-gradint var(--tertiary);
-        }
-        #player-turn{
-            background: linear-gradint var(--primary);
-            border-radius: 2rem;
-            padding: 0.5rem;
-            border-radius: 1rem;
-        }
-         h1#player-turn {
-            background-color: #000;
-            border-radius: 1rem;
-        }
-       
-        @media (max-width: 360px) {
-
-    .container {
-        max-width: 100%;
-        height: 100vh;
-        padding: 12px;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-        padding: 0.3rem;
-    }
-
-    .subtitle {
-        font-size: 0.75rem;
-        padding: 0.7rem;
-    }
-
-    .card,
-    .cat-card {
-        padding: 14px;
-        border-radius: 16px;
-    }
-
-    input {
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-
-    .btn {
-        padding: 14px;
-        font-size: 0.85rem;
-    }
-
-    .secret-card {
-        height: 180px;
-        font-size: 1.2rem;
-    }
-
-    #timer-display {
-        font-size: 3.5rem;
-    }
-
-    #titulo {
-        max-width: 240px;
-    }
-}
-@media (min-width: 361px) and (max-width: 500px) {
-
-    .container {
-        max-width: 380px;
-        height: 90vh;
-        padding: 18px;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    .subtitle {
-        font-size: 0.85rem;
-    }
-
-    .btn {
-        font-size: 0.95rem;
-    }
-
-    .secret-card {
-        height: 210px;
-        font-size: 1.4rem;
-    }
-
-    #timer-display {
-        font-size: 4.5rem;
-    }
-
-    #titulo {
-        max-width: 300px;
-    }
-}
-@media (min-width: 401px) and (max-width: 450px) {
-
-    .container {
-        max-width: 420px;
-        height: 88vh;
-        padding: 22px;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .subtitle {
-        font-size: 0.95rem;
-    }
-
-    .btn {
-        padding: 18px;
-        font-size: 1rem;
-    }
-
-    .secret-card {
-        height: 240px;
-        font-size: 1.6rem;
-    }
-
-    #timer-display {
-        font-size: 5.2rem;
-    }
-
-    #titulo {
-        max-width: 350px;
-    }
+function showCustomAlert(title, msg, endOfGame = false) {
+ document.getElementById('modal-title').innerText = title;
+ document.getElementById('modal-msg').innerText = msg;
+ document.getElementById('custom-modal').style.display = 'flex';
+ isGameEnd = endOfGame;
 }
 
-@keyframes gradientCardMove {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+function closeModal() {
+ document.getElementById('custom-modal').style.display = 'none';
+ if(isGameEnd) resetForNewRound();
 }
+
+
+
+function resetForNewRound() {
+ category = "";
+ secretWord = "";
+ impostorIdx = -1;
+ currentIdx = 0;
+ isPaused = false;
+ isGameEnd = false;
+ gameStarted = false;
+
+ document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+ nextScreen('screen2');
+}
+
+
+
+function nextScreen(id) {
+ if(id === 'screen2' && players.length < 3) {
+   showCustomAlert("¡Faltan Jugadores!", "Añade al menos 3 personas para poder jugar.");
+   return;
+ }
+ if(id === 'screen3' && !category) {
+   showCustomAlert("Elige Tema", "Por favor, selecciona una de las tarjetas de categoría.");
+   return;
+ }
+ document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+
+
+
+function renderPlayers() {
+ const container = document.getElementById('list-names');
+ container.innerHTML = "";
+
+ players.forEach((p, index) => {
+   const tag = document.createElement("div");
+   tag.className = "player-tag";
+   tag.style.display = "flex";
+   tag.style.justifyContent = "space-between";
+   tag.style.alignItems = "center";
+
+   const name = document.createElement("span");
+   name.textContent = p;
+
+   const del = document.createElement("button");
+   del.textContent = "✕";
+   del.style.background = "transparent";
+   del.style.border = "none";
+   del.style.color = "var(--impostorColor)";
+   del.style.fontSize = "1.2rem";
+   del.style.cursor = "pointer";
+
+   del.addEventListener("click", (e) => {
+     e.stopPropagation();
+     eliminarPlayer(index);
+   });
+
+   tag.appendChild(name);
+   tag.appendChild(del);
+   container.appendChild(tag);
+ });
+}
+
+function eliminarPlayer(index) {
+ if (gameStarted) return;
+ players.splice(index, 1);
+ renderPlayers();
+}
+
+function addPlayer() {
+ const inp = document.getElementById('input-name');
+ const name = inp.value.trim();
+ if(name){
+   players.push(name);
+   renderPlayers();
+   inp.value = "";
+ }
+}
+
+
+
+function selectCat(el, cat) {
+ document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+ el.classList.add('selected');
+ category = cat;
+}
+
+function getRandomCategory() {
+ const categories = Object.keys(database).filter(cat => cat !== "Aleatorio");
+ return categories[Math.floor(Math.random() * categories.length)];
+}
+
+
+
+function startGame() {
+ if (category === "Aleatorio") category = getRandomCategory();
+
+ gameStarted = true;
+ shuffleArray(players);
+
+ timeLeft = parseInt(document.getElementById('time-val').value) || 60;
+ impostorIdx = Math.floor(Math.random() * players.length);
+
+ const list = database[category];
+ secretWord = list[Math.floor(Math.random() * list.length)];
+
+ currentIdx = 0;
+ updateRevealScreen();
+ nextScreen('screen4');
+}
+
+function updateRevealScreen() {
+ document.getElementById('player-turn').innerText = players[currentIdx];
+ const box = document.getElementById('secret-box');
+ box.innerText = "TOCA PARA REVELAR";
+ box.style.color = "white";
+ box.style.borderColor = "#444";
+ document.getElementById('btn-next-turn').style.display = "none";
+}
+
+function showSecret() {
+ const box = document.getElementById('secret-box');
+ if(currentIdx === impostorIdx) {
+   box.innerText = "ERES EL\nIMPOSTOR";
+   box.style.color = "var(--impostorColor)";
+   box.style.borderColor = "var(--impostorColor)";
+ } else {
+   box.innerText = secretWord;
+   box.style.color = "var(--primary)";
+   box.style.borderColor = "var(--primary)";
+ }
+ document.getElementById('btn-next-turn').style.display = "block";
+}
+
+function nextTurn() {
+ currentIdx++;
+ if(currentIdx < players.length) updateRevealScreen();
+ else startCounter();
+}
+
+
+
+function startCounter() {
+ nextScreen('screen5');
+ const display = document.getElementById('timer-display');
+ display.innerText = timeLeft;
+ timerInterval = setInterval(() => {
+   if(!isPaused) {
+     timeLeft--;
+     display.innerText = timeLeft;
+     if(timeLeft <= 0) finishTimer();
+   }
+ }, 1000);
+}
+
+function togglePause() {
+ isPaused = !isPaused;
+ document.getElementById('pause-btn').innerText = isPaused ? "Seguir" : "Pausa";
+}
+
+
+
+function finishTimer() {
+ clearInterval(timerInterval);
+ nextScreen('screen6');
+ const list = document.getElementById('vote-list');
+ list.innerHTML = "";
+
+ players.forEach((p, i) => {
+   const tag = document.createElement("div");
+   tag.className = "player-tag";
+   tag.style.display = "flex";
+   tag.style.justifyContent = "space-between";
+   tag.style.cursor = "pointer";
+   tag.textContent = p;
+
+   const span = document.createElement("span");
+   span.textContent = "VOTAR";
+   span.style.fontSize = "0.7rem";
+   span.style.fontWeight = "900";
+   span.style.color = "var(--primary)";
+
+   tag.appendChild(span);
+   tag.addEventListener("click", () => checkResult(i));
+   list.appendChild(tag);
+ });
+}
+
+function checkResult(idx) {
+ if(idx === impostorIdx) {
+   showCustomAlert("¡VICTORIA!", `¡Habéis ganado! El impostor era ${players[impostorIdx]}.`, true);
+ } else {
+   showCustomAlert("¡DERROTA!", `Habéis fallado. El impostor era ${players[impostorIdx]}.`, true);
+ }
+}
+
+
+
+const titulo = document.querySelector('#titulo');
+titulo.addEventListener('touchstart', () => {
+ titulo.classList.add('animate');
+ titulo.addEventListener('animationend', () => {
+   titulo.classList.remove('animate');
+ }, { once: true });
+});
